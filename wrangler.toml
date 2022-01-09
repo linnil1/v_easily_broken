@@ -1,0 +1,20 @@
+name = "easily-broken"
+type = "javascript"
+account_id = '84360be8d748ddadfd6897136883929a'
+zone_id = '81f4ea11d5b83ab03a5b2c7cb73678eb'
+workers_dev = false
+route = "easily-broken.linnil1.me/*"
+compatibility_date = "2022-01-09"
+
+[[kv_namespaces]]
+binding = "easily_broken"
+id = "2cb0c22e60f74dba90e4156ec8050e61"
+preview_id = "2cb0c22e60f74dba90e4156ec8050e61"
+
+[site]
+bucket = ".output/public"
+entry-point = ".output"
+
+[build]
+command = "NITRO_PRESET=cloudflare yarn nuxt build"
+upload.format = "service-worker"
