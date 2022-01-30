@@ -1,6 +1,6 @@
 <template lang="pug">
 .footer
-  p 記得 點進去 twitter 按愛心
+  p 記得 點進去 各個繪師的 twitter 按愛心
   div
     img.github(src="~/assets/GitHub-Mark-64px.png")
     a(href='https://github.com/linnil1/v_easily_broken') https://github.com/linnil1/v_easily_broken

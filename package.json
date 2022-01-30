@@ -10,7 +10,8 @@
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "stylus": "^0.56.0",
-    "stylus-loader": "^6.2.0"
+    "stylus-loader": "^6.2.0",
+    "vue-gtag-next": "^1.14.0"
   },
   "dependencies": {}
 }
