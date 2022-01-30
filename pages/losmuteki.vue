@@ -1,5 +1,9 @@
 <template lang="pug">
 div
+  Title 蘿絲 -- 易碎組 Easily Broken
+  Meta(name='twitter:title'       content='蘿絲 -- 易碎組 Easily Broken')
+  Meta(name='twitter:description' content='蘿絲 -- 易碎組 Easily Broken。由罐子變成的機娘羅莉，自稱天才酵素師')
+  Meta(name='twitter:image'       content='https://pbs.twimg.com/media/FFwcAckVUAA9H3-.jpg')
   Nav.bgcolor-los.color-los
   .intro-container.bgcolor-los
     .intro
@@ -28,21 +32,12 @@ export default {
       tweets
     }
   },
-  head: {
-    title: '蘿絲 -- 易碎組 Easily Broken',
-    meta: [
-      {
-        hid: 'description',
-        content: '蘿絲 -- 易碎組 Easily Broken'
-      }
-    ],
-  },
 }
 </script>
 <style lang='stylus' src="~/assets/member.styl" />
 <style lang='stylus'>
 .drawer-left
-  right: 100%
+  left: 0
 .bgcolor-los
   background-color: #707299
 .color-los > .nav-item

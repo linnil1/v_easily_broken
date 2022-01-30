@@ -1,5 +1,9 @@
 <template lang="pug">
 div
+  Title 玖依 -- 易碎組 Easily Broken
+  Meta(name='twitter:title'       content='玖依 -- 易碎組 Easily Broken')
+  Meta(name='twitter:description' content='玖依 -- 易碎組 Easily Broken。從映像管電視機轉生成的蘿莉')
+  Meta(name='twitter:image'       content='https://pbs.twimg.com/media/FFdJrIaaQAAby4r.jpg')
   Nav.bgcolor-91.color-91
   .intro-container.bgcolor-91
     .intro
@@ -8,7 +12,7 @@ div
         .drawer.drawer-right <a href="https://twitter.com/miziquan_naiali"> 繪師 @miziquan_naiali 米自犬 </a>
       .intro-text
         p.intro-name 玖依
-        p 生日： 4 / 29
+        p 生日： 4 / 19
         p 前世：電視機
         p 設定：電視蘿莉
         p 個性：傲嬌、愛大家
@@ -60,22 +64,12 @@ export default {
       tweets
     }
   },
-  head: {
-    title: '玖依 -- 易碎組 Easily Broken',
-    meta: [
-      {
-        hid: 'description',
-        content: '玖依 -- 易碎組 Easily Broken'
-      }
-    ],
-    // script: [{ src: "https://platform.twitter.com/widgets.js"}]
-  },
 }
 </script>
 <style lang='stylus' src="~/assets/member.styl" />
 <style lang='stylus'>
 .drawer-right
-  left: 100%
+  right: 0
 
 .bgcolor-91
   background-color: #E6D2B7

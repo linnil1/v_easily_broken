@@ -10,14 +10,19 @@
 .nav
   display: flex
   width: 100%
-  justify-content: center
   height: 55px
+
+  @media screen and (min-width: 992px)
+    justify-content: center
+  @media not screen and (min-width: 992px)
+    justify-content: space-evenly
 
   .nav-item 
     margin: 16px
     box-sizing: border-box
     text-decoration: none
     position: relative
+
 
     &.router-link-active
       color: #000

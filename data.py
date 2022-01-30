@@ -2,6 +2,7 @@ import os
 import sys
 import csv
 import json
+import asyncio
 import datetime
 from pprint import pprint
 
@@ -13,12 +14,15 @@ cors_header = {
 
 
 def query(url):
+    import tweepy
+    from twitter_secret import secret
+
     api = tweepy.Client(**secret)
     data = api.get_tweet(url.split('/')[-1],
         expansions=["author_id", "attachments.media_keys"],
         user_fields=["profile_image_url"],
         tweet_fields=["created_at", "entities"],
-        media_fields=["url"])
+        media_fields=["url", "preview_image_url"])
 
     return {
         'query_url': url,
@@ -26,19 +30,23 @@ def query(url):
         'user_id': data.includes['users'][0].data['username'],
         'user_image': data.includes['users'][0].data['profile_image_url'],
         'text': data.data.text,
-        'image': [img.data['url'] for img in data.includes['media']],
+        'image': [img.data['url'] if img.data.get('url') else img.data['preview_image_url'] for img in data.includes['media']],
         'url': data.data.entities['urls'][0]['url'],
         'create_at': data.data.created_at.isoformat(),
     }
 
 
-def updateDB(tw_type, url, force=False):
+def openDB():
     data = {}
     if not os.path.exists(path_data_json):
         json.dump({}, open(path_data_json, 'w'))
     else:
         data = json.load(open(path_data_json))
+    return data
 
+
+def updateDB(tw_type, url, force=False):
+    data = openDB()
     if tw_type not in data:
         data[tw_type] = []
 
@@ -47,20 +55,19 @@ def updateDB(tw_type, url, force=False):
         print(f"Skip {url}")
         return 
 
+    tweet = query(url)
     if url in url_map:
-        print(f"Update {url}")
-        data[tw_type][url_map[url]] = query(url)
+        print(f"Update {url} {tweet}")
+        data[tw_type][url_map[url]] = tweet
     else:
-        print(f"insert {url}")
-        data[tw_type].append(query(url))
+        print(f"insert {url} {tweet}")
+        data[tw_type].append(tweet)
     json.dump(data, open(path_data_json, 'w'))
 
 
 def getTweets(tw_type):
-    if tw_type:
-        data = json.load(open(path_data_json)).get(tw_type, [])
-    else:
-        data = []
+    db = openDB()
+    data = db.get(tw_type, [])
     if data:
         data = sorted(data, key=lambda i: i['create_at'])
     return data
@@ -100,21 +107,43 @@ async def getTweetsJsonExample(request):
     return web.json_response(data, headers=cors_header)
 
 
+async def refreshUser():
+    import aiohttp
+    data = openDB()
+    for tw_type in data:
+        for i, t in enumerate(data[tw_type]):
+            async with aiohttp.ClientSession() as session:
+               async with session.get(t['user_image']) as resp:
+                   if resp.status != 200:
+                       print(f"Update {t}")
+                       tweet = query(t['query_url'])
+                       data[tw_type][i]['user_id'] = tweet['user_id']
+                       data[tw_type][i]['user_name'] = tweet['user_name']
+                       data[tw_type][i]['user_image'] = tweet['user_image']
+                   else:
+                       print(f"{t['user_name']} OK")
+    json.dump(data, open(path_data_json, 'w'))
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "fetch":
-        from twitter_secret import secret
-        import tweepy
         reader = csv.DictReader(open("data.csv"))
         for i in reader:
-            updateDB(i['tw_type'], i['url'])
+            updateDB(i['tw_type'], i['url'], force=i['update']=='t')
+
     elif sys.argv[1] == "server":
         from aiohttp import web
         app = web.Application()
         app.add_routes([web.post('/api/{tw_type}', getTweetsJson)])
         # app.add_routes([web.post('/api/{tw_type}', getTweetsJsonExample)])
         web.run_app(app, port=8081)
+
     elif sys.argv[1] == "export":
         data = getTweets(sys.argv[2])
         print(json.dumps(data))
+
+    elif sys.argv[1] == "refresh":
+        asyncio.run(refreshUser())
+
     else:
         print("Error")

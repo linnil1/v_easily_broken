@@ -1,25 +1,24 @@
 import { defineNuxtConfig } from 'nuxt3'
 
-// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   ssr: true,  // default value
-  head: {
+  meta: {
     title: '易碎組 Easily Broken',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: '易碎組 Easily Broken',
-      },
+      { name: 'twitter:card',        content: 'summary_large_image'},
+      { name: 'twitter:site',        content: 'https://easily-broken.linnil1.me'},
+      { name: 'twitter:description', content: '易碎組 Easily Broken'},
+      { name: 'twitter:title',       content: '易碎組 Easily Broken'},
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'stylesheet', href: 'assets/default.css' }
+    ],
+    script: [
+      // google analysis
+      { src: "https://www.googletagmanager.com/gtag/js?id=G-6307YV711H" },
+      { src: "assets/ga.js" },
+    ],
   },
-  css: [
-    '~/assets/default.css'
-  ],
-  script: [
-    // "https://platform.twitter.com/widgets.js",
-  ],
 })

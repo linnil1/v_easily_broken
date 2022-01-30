@@ -8,6 +8,9 @@
       .main
         .main-img-div
           img.main-img(:src="img")
+          // This not work for Firefox
+          // iframe.main-img(v-if="tweet.video" :src="tweet.video" frameborder="0")
+          // img.main-img(v-else :src="img")
         p.main-text {{ tweet.text }}
       img.twitter-logo(src="~/assets/twitter_logo.svg")
 </template>
@@ -26,7 +29,14 @@ export default {
   justify-content: center
 
 .tweet
-  height: 600px
+  // mobile
+  //   height: auto
+  // mobile
+  @media screen and (min-width: 600px)
+    height: 400px
+  // desktop
+  @media screen and (min-width: 992px)
+    height: 600px
   margin: 5px 5px
   padding: 12px 16px 4px 16px
 
@@ -59,13 +69,28 @@ export default {
     overflow: hidden
     .main-img-div
       margin-top: 12px
-      height: 400px
       max-width: 90vw
       position: relative
 
       .main-img
         max-height: 100%
         max-width: 100%
+
+      iframe
+        height: 100%
+
+    // mobile
+    @media not screen and (min-width: 600px)
+      .main-img-div
+        width: 90vw
+    // tablet
+    @media screen and (min-width: 600px)
+      .main-img-div
+        height: 200px
+    // desktop
+    @media screen and (min-width: 992px)
+      .main-img-div
+        height: 400px
 
     .main-text
       margin: 0

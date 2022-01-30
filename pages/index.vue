@@ -1,5 +1,9 @@
 <template lang="pug">
 div
+  Title 易碎組 Easily Broken
+  Meta(name='twitter:title'       content='易碎組 Easily Broken')
+  Meta(name='twitter:description' content='易碎組 Easily Broken。 蘿絲跟玖依，兩位也就是從電視機跟罐子轉生為蘿莉組成的團體')
+  Meta(name='twitter:image'       content='https://pbs.twimg.com/media/FFzGFY-UUAYZdII.jpg')
   Nav.bgcolor-both.color-both
   .intro-container.bgcolor-both
     .intro
@@ -26,23 +30,14 @@ export default {
     // WHY POST not work
     // Uncaught (in response) TypeError: URL.createObjectURL is not a function
     var [{ data: tweets }, { data: tweets_articles }] = await Promise.all([
-        // useFetch('/api/query_kv/both', {method: "POST"}),
-        // useFetch('/api/query_kv/articles', {method: "POST"})
+        // useFetch('/api/query_kv_test/both', {method: "POST"}),
+        // useFetch('/api/query_kv_test/articles', {method: "POST"})
         useFetch('/api/query_kv/both', {method: "GET"}),
         useFetch('/api/query_kv/articles', {method: "GET"})
     ])
     return {
         tweets, tweets_articles
     }
-  },
-  head: {
-    title: '易碎組 Easily Broken',
-    meta: [
-      {
-        hid: 'description',
-        content: '易碎組 Easily Broken'
-      }
-    ],
   },
 }
 </script>
