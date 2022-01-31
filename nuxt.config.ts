@@ -12,15 +12,8 @@ export default defineNuxtConfig({
       { name: 'twitter:description', content: '易碎組 Easily Broken'},
       { name: 'twitter:title',       content: '易碎組 Easily Broken'},
     ],
-    script: [
-      // google analysis
-      { src: "https://www.googletagmanager.com/gtag/js?id=G-6307YV711H" },
-    ],
   },
   css: [
     '@/assets/default.css',
-  ],
-  plugins: [
-    "@/plugins/ga.js",
   ],
 })
